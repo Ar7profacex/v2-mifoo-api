@@ -3,9 +3,10 @@ import { DataSource, DataSourceOptions } from "typeorm";
 import { TypeOrmModuleOptions } from "@nestjs/typeorm";
 
 dotenv.config();
+console.log(`🚀 ~ process.env:`, process.env)
 
 const options: DataSourceOptions = {
-  type: "mariadb",
+  type: "mysql",
   host: process.env.DATABASE_HOST,
   port: +process.env.DATABASE_PORT,
   username: process.env.DATABASE_USER,

@@ -4,7 +4,7 @@ LABEL org.opencontainers.image.authors="ar7pro.desarrollo@gmail.com"
 WORKDIR /app
 # Copia de directorio dist previamente generado como artefacto en gitlab
 COPY ./node_modules/ ./node_modules
-COPY .env.prod .env
+#COPY .env.prod .env
 COPY ["package.json", "./"]
 COPY ./dist/ ./dist
 COPY ./start-ms.sh .
