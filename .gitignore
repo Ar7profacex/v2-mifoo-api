@@ -37,3 +37,4 @@ lerna-debug.log*
 .npmrc
 yarn.lock
 package-lock.json
+.env.prod

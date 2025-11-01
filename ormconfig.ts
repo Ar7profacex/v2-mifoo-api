@@ -32,6 +32,7 @@ export default {
   cli: {
     migrationsDir: "src/database/migrations",
   },
+  migrationsTableName: 'migrations_typeorm',
 } as TypeOrmModuleOptions;
 
 export const AppDataSource = new DataSource(options);

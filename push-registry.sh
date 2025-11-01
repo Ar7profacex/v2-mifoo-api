@@ -2,7 +2,7 @@
 
 # Variables
 REGISTRY_HOST="registry.ar7pro.com"
-DOCKER_IMAGE_NAME="ar7pro-api-mifoo-v2-image"
+DOCKER_IMAGE_NAME="ar7pro-mifoo-v2-api-image"
 DOCKER_IMAGE_TAG="latest"
 DOCKER_REPO="$REGISTRY_HOST/$DOCKER_IMAGE_NAME"
 
@@ -12,7 +12,7 @@ REGISTRY_PASS="$REGISTRY_PASS"
 echo "Eliminando docker imagen local"
 docker rmi -f "$DOCKER_REPO:$DOCKER_IMAGE_TAG" 2>/dev/null || true
 
-echo "Build Nest"
+echo "Build NestJS"
 npm install && npm run build 
 
 # (Opcional) login si configuraste basic auth en tu registry
@@ -28,8 +28,9 @@ echo "$REGISTRY_PASS" | docker login "$REGISTRY_HOST" -u "$REGISTRY_USER" --pass
 echo "Docker build prod..."
 docker buildx rm mybuilder
 docker buildx create --name mybuilder --use --driver docker-container
-docker buildx build --no-cache --platform linux/amd64,linux/arm64 \
+docker buildx build --no-cache --platform linux/amd64 \
   -t "$DOCKER_REPO:$DOCKER_IMAGE_TAG" \
   -f prod.Dockerfile . --push || { echo "❌ Error al construir/subir la imagen"; exit 1; }
 
 echo "✅ ¡Imagen multi-arch subida exitosamente a $DOCKER_REPO:$DOCKER_IMAGE_TAG!"
+#,linux/arm64 

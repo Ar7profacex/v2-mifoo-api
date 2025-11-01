@@ -3,7 +3,6 @@ dotenv.config();
 
 export const APP_PREFIX = "mifoo-api";
 export const DB_MAIN = process.env.DATABASE_NAME;
-export const DB_API_V2 = "api_pos";
 export const MIN_ID_DTO = 1;
 export const ROWS_LIST = 1000;
 export const ID_APP_EMPRESA_DEFAULT = 2;

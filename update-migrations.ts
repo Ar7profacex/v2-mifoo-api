@@ -2,7 +2,7 @@ import { Logger } from "@nestjs/common";
 import * as dotenv from "dotenv";
 import * as path from "path";
 import * as fs from "fs";
-import { DB_API_V2 } from "./src/common/utils/constants";
+import { DB_MAIN } from "./src/common/utils/constants";
 
 dotenv.config();
 
@@ -27,7 +27,7 @@ const updateMigrations = (dirname: string) => {
 
         const updatedContent = content.replace(
           /api_v2/g,
-          DB_API_V2
+          DB_MAIN
         );
         fs.writeFile(dirname + migrationFile, updatedContent, "utf8", (err) => {
           if (err) {
