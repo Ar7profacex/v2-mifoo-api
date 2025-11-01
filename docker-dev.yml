@@ -1,0 +1,24 @@
+version: "3"
+services:
+  api_mifoo_v2:
+    image: "api_mifoo_v2"
+    container_name: "api_mifoo_v2"
+    restart: always
+    build:
+      context: .
+      dockerfile: dev.Dockerfile
+    ports:
+      - "${APP_PORT}:${APP_PORT}"
+    volumes:
+      - .:/usr/src/app
+    env_file:
+      - .env
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+      - "docs.ar7pro.local:host-gateway"
+    networks:
+      - net_mifoo
+    command: npm run start:dev
+    dns: ["8.8.8.8", "8.8.4.4"]
+networks:
+  net_mifoo:
