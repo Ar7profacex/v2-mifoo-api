@@ -12,6 +12,7 @@
     "start": "nest start",
     "start:dev": "nest build && nest start --watch",
     "update-migrations:run": "ts-node update-migrations",
+    "seed:run": "ts-node ./node_modules/@arrimo/typeorm-seeding/dist/cli.js seed",
     "startms:run": "start-ms.bat",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/src/main"
