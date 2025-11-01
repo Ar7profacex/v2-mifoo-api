@@ -14,13 +14,14 @@ const options: DataSourceOptions = {
   synchronize: false,
   entities: ["dist/**/*.entity.js"],
   migrations: ["dist/**/migrations/*.js"],
-  extra: {
+  /*extra: {
     ...(process.env.ENV === 'prod' && {
       ssl: {
         rejectUnauthorized: false,
       }
     }),
-  },
+  },*/
+
 };
 
 export default {

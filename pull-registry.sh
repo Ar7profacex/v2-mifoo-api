@@ -17,6 +17,6 @@ echo "🗑️ Eliminando container existente..."
 docker rm -f "$DOCKER_CONTAINER_NAME" 2>/dev/null || echo "ℹ️ No había container corriendo"
 
 echo "🐳 Docker run..."
-docker run -d --restart=always --name "$DOCKER_CONTAINER_NAME" -p 8002:80 "$DOCKER_REPO:$DOCKER_IMAGE_TAG"
+docker run -d --env-file .env.mifoo-api-prod --restart=always --name "$DOCKER_CONTAINER_NAME" -p 8082:80 "$DOCKER_REPO:$DOCKER_IMAGE_TAG"
 
 echo "✅ ¡Container corriendo exitosamente en $DOCKER_CONTAINER_NAME desde $REGISTRY_HOST!"

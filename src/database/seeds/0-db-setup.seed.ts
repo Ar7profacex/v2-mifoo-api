@@ -10,15 +10,13 @@ export default class DBSetup implements Seeder {
     const queryRunner = connection.createQueryRunner();
     logNormal("INFO", "CREATE SEEDERS TABLE");
     await queryRunner.query(`
-    create table  if not exists seeders_typeorm
-    (
-      id bigint
-        constraint seeders_pk
-          primary key,
-      name varchar default null,
-      section varchar default null,
-      date timestamp default null
-    )
+   CREATE TABLE IF NOT EXISTS seeders_typeorm (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(255) DEFAULT NULL,
+    section VARCHAR(255) DEFAULT NULL,
+    date TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id)
+    );
 `);
     logNormal("INFO", "RUN MIGRATIONS");
     await connection.runMigrations({

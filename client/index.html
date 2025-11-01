@@ -227,12 +227,13 @@
     const baseUrl = window.location.origin;
     const modulo = "mifoo-api";
     const version = 2;
+    const imageLogo = "https://mifoo.ar7pro.com/img/mifoo_icon_logo.png";
 
     document.getElementById("st-ms").innerText = modulo;
     document.getElementById("link-icon").setAttribute("href", imageLogo);
     document.getElementById("link-icon-2").setAttribute("href", imageLogo);
     document.getElementById("link-icon-3").setAttribute("href", imageLogo);
-    document.getElementById("img-logo").setAttribute("src", "https://mifoo.ar7pro.com/img/mifoo_icon_logo.png");
+    document.getElementById("img-logo").setAttribute("src", imageLogo);
     document
       .getElementById("a-docs")
       .setAttribute("href", `/v${version}/${modulo}/docs`);
