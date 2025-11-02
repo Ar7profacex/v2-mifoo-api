@@ -4,7 +4,10 @@ import { ExceptionEnum } from "../../common/enum/exception.enum";
 import { AuthService } from "../auth.service";
 import { Reflector } from "@nestjs/core";
 import { ConfigService } from "@nestjs/config";
-import { APP_PREFIX } from "../../common/utils/constants";
+import { APP_PREFIX, X_CROSS_PLATFORM } from "../../common/utils/constants";
+import { AuthResponse, IAccount, IAuthToken } from "../interfaces/auth.interface";
+import { META_PERMISSIONS_PROTECTED } from "../decorators/permission-protected.decorator";
+import { META_CONTROLLER_PROTECTED } from "../decorators/controller-protected.decorator";
 
 @Injectable()
 export class AuthCustomGuard implements CanActivate {
@@ -18,19 +21,9 @@ export class AuthCustomGuard implements CanActivate {
   public async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
 
-    //===> VALIDAR ACCESOS Y RECURSOS NIVEL BACK
-    this.authService.pathOriginMS = "";
-    try {
-      const versionApp = this.configService.get("API_VERSION");
-      const prefixMS = `/v${versionApp}/acreditacion-${APP_PREFIX}/`;
-      this.authService.pathOriginMS = request.path.replace(prefixMS, "");
-    } catch (e) {
-
-    }
-    //===> VALIDAR ACCESOS Y RECURSOS NIVEL BACK
-
     const header = request.headers;
     const authorization = header["authorization"];
+    const crossPlatform = header[X_CROSS_PLATFORM];
 
     let authorizationString = "";
     if (Array.isArray(authorization)) {
@@ -39,28 +32,71 @@ export class AuthCustomGuard implements CanActivate {
       authorizationString = authorization;
     }
 
-    request.user = await this.authorizedBy(authorizationString);
-    const cuenta = request.user as any;
-    const rolRecurso = APP_PREFIX;
+    if (!crossPlatform) {
+      throw new HttpExceptionWM({
+        type: ExceptionEnum.FORBIDDEN,
+        messageDetail: `El header cross-platform es requerido`,
+      });
+    }
 
-    if (!cuenta)
-      throw new InternalServerErrorException("Cuenta no encontrada (guard)");
+    this.authService.crossPlatform = header["cross-platform"] || APP_PREFIX;
+    const authorizedBy = await this.authorizedBy(authorizationString);
+    request.account = authorizedBy.account as IAccount;
+    request.authToken = authorizedBy.authToken as IAuthToken;
+
+    if (!request.account)
+      throw new HttpExceptionWM({
+        type: ExceptionEnum.INVALID_TOKEN,
+        messageDetail: `Cuenta no encontrada (guard)`,
+      });
+
+    const requiredPermissions = this.reflector.get<string[]>(
+      META_PERMISSIONS_PROTECTED,
+      context.getHandler()
+    );
+    const controllerProtected = this.reflector.get<string>(
+      META_CONTROLLER_PROTECTED,
+      context.getClass() ?? context.getHandler()
+    );
+
+    //PERMISSION HANDLER
+    if (requiredPermissions?.length) {
+      const userPermissions = request.account.access.PERMISSION || {};
+      if (!userPermissions.hasOwnProperty(controllerProtected)) {
+        throw new HttpExceptionWM({
+          type: ExceptionEnum.FORBIDDEN,
+          messageDetail: `No tienes permisos suficientes (1)`,
+        });
+      }
+
+      const controllerPermissions = userPermissions[controllerProtected] || [];
+      const hasPermission = requiredPermissions.every((perm) =>
+        controllerPermissions.includes(perm)
+      );
+
+      if (!hasPermission) {
+        throw new HttpExceptionWM({
+          type: ExceptionEnum.FORBIDDEN,
+          messageDetail: `No tienes permisos suficientes (2)`,
+        });
+      }
+    }
 
     return true;
   }
 
-  private async authorizedBy(authHeader?: string): Promise<any> {
+  private async authorizedBy(authHeader?: string): Promise<AuthResponse> {
     if (!authHeader) {
       throw new HttpExceptionWM({
         type: ExceptionEnum.INVALID_TOKEN,
-        messageDetail: `Es requerido el header para autorizar`,
+        messageDetail: `El encabezado de autorización es requerido`,
       });
     }
     const tokenArray = authHeader.split(" ", 2);
     if (!tokenArray[0] || tokenArray[0].toLowerCase() !== "bearer") {
       throw new HttpExceptionWM({
         type: ExceptionEnum.INVALID_TOKEN,
-        messageDetail: `El token debe ser de tipo Bearer`,
+        messageDetail: `El tipo de token no es válido`,
       });
     }
 

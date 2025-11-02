@@ -3,33 +3,33 @@ import { AuthConfig } from "./auth-config";
 import { HttpService } from "@nestjs/axios";
 import { processHttpResponse } from "../common/utils/rest-comunication.util";
 import { HttpExceptionResponse } from "../common/interfaces/http-exception-response.interface";
-import { APP_PREFIX, DB_MAIN } from "src/common/utils/constants";
-import { ApisUrl } from "src/common/utils/apis-url.util";
+import { APP_PREFIX, DB_MAIN, X_API_KEY, X_CROSS_PLATFORM, X_REQUEST_PLATFORM } from "src/common/utils/constants";
 import { ExceptionEnum } from "src/common/enum/exception.enum";
+import { AuthResponse } from "./interfaces/auth.interface";
 
 @Injectable()
 export class AuthService {
     private schema: string = "";
-    public pathOriginMS: string = "";
+    public crossPlatform: string = null;
 
     constructor(
         private readonly authConfig: AuthConfig,
-        private readonly apisUrl: ApisUrl,
         private readonly httpService: HttpService
     ) {
         this.schema = DB_MAIN;
-        this.pathOriginMS = "";
     }
 
-    async validate(token: string): Promise<any> {
+    async validate(token: string): Promise<AuthResponse> {
         const url = this.authConfig.authority;
-        const authResponse = this.httpService.get<HttpExceptionResponse>(
+        console.log(`🚀 ~ AuthService ~ validate ~ url:`, url)
+        const authResponse = this.httpService.post<HttpExceptionResponse>(
             url,
+            null,
             {
                 headers: {
                     Authorization: `Bearer ${token}`,
-                    PathOriginMS: this.pathOriginMS,
-                    OriginMS: APP_PREFIX
+                    [X_REQUEST_PLATFORM]: APP_PREFIX,
+                    [X_CROSS_PLATFORM]: this.crossPlatform ?? APP_PREFIX
                 },
             }
         );
@@ -43,18 +43,19 @@ export class AuthService {
             }
         );
 
-        return response.data as any;
+        return response?.data as AuthResponse;
     }
 
     async validateApiKey(apiKey: string): Promise<any> {
         const url = this.authConfig.validateApiKey;
+        console.log(`🚀 ~ AuthService ~ validateApiKey ~ url:`, url)
         const authResponse = this.httpService.get<HttpExceptionResponse>(
             url,
             {
                 headers: {
-                    "x-api-key": apiKey,
-                    PathOriginMS: this.pathOriginMS,
-                    OriginMS: APP_PREFIX
+                    [X_API_KEY]: apiKey,
+                    [X_REQUEST_PLATFORM]: APP_PREFIX,
+                    [X_CROSS_PLATFORM]: this.crossPlatform ?? APP_PREFIX
                 },
             }
         );
@@ -64,10 +65,10 @@ export class AuthService {
             url,
             authResponse,
             {
-                type: ExceptionEnum.INVALID_TOKEN,
+                type: ExceptionEnum.INVALID_API_KEY,
             }
         );
 
-        return response.data as any;
+        return response?.data as { platform: string };
     }
 }

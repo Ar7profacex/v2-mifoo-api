@@ -28,6 +28,12 @@ const getExceptionDetail = (exception: Exception): HttpExceptionResponse => {
       message = `No se ha podido autorizar el usuario`;
       break;
 
+    case ExceptionEnum.INVALID_API_KEY:
+      remoteExceptionName = exceptionName;
+      statusCode = HttpStatus.UNAUTHORIZED;
+      message = `No se ha podido autorizar la clave API`;
+      break;
+
     case ExceptionEnum.UNAUTHORIZED_LOGIN:
       remoteExceptionName = exceptionName;
       statusCode = HttpStatus.UNAUTHORIZED;

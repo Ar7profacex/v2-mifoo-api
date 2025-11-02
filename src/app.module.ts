@@ -12,6 +12,8 @@ import { ServeStaticModule } from "@nestjs/serve-static";
 import { join } from "path";
 import { AuthModule } from "./auth/auth.module";
 import { APP_PREFIX } from "./common/utils/constants";
+import { ConfigurationModule } from "./configuration/configuration.module";
+import { ExampleModule } from "./example/example.module";
 
 const optionsORm = {
   ...ormconfig,
@@ -28,6 +30,8 @@ const optionsORm = {
     CommonModule,
     HttpModule,
     AuthModule,
+    ExampleModule,
+    ConfigurationModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, "..", "client"),
       exclude: [`v${process.env.API_VERSION}/${APP_PREFIX}`],

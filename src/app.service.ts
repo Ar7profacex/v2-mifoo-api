@@ -6,4 +6,9 @@ export class AppService {
 
     return 'Hello World!';
   }
+
+  healtCheck(): string {
+
+    return 'OK';
+  }
 }

@@ -32,7 +32,7 @@ async function bootstrap() {
     );
     app.useGlobalFilters(new HttpExceptionsFilter(httpAdapterHost));
     app.useGlobalFilters(new DatabaseExceptionFilter());
-    app.setGlobalPrefix(`v${version}/acreditacion-${prefix}`);
+    app.setGlobalPrefix(`v${version}/${prefix}`);
     app.use(json({ limit: "100mb" }));
     app.use(cookieParser());
     app.enableCors();

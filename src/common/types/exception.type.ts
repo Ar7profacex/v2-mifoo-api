@@ -8,11 +8,13 @@ import {
   NotFoundCustomException,
   ProcessDocumentsException,
   UnauthorizedLoginException,
+  InvalidApiKeyException,
 } from "../interfaces/exceptions.interface";
 
 export type Exception =
   | MsNotRespondingException
   | InvalidTokenException
+  | InvalidApiKeyException
   | UnauthorizedLoginException
   | ForbiddenCustomException
   | MSErrorException

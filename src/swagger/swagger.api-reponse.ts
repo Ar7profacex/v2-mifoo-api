@@ -13,7 +13,15 @@ export const NotFound = <T>(
                 type: 'number',
                 example: HttpStatus.NOT_FOUND,
             },
+            success: {
+                type: 'boolean',
+                example: false,
+            },
             message: {
+                type: 'string',
+                example: getNotFoundMsg(resource.name),
+            },
+            msg: {
                 type: 'string',
                 example: getNotFoundMsg(resource.name),
             },
@@ -37,7 +45,15 @@ export const Unauthorized: ApiResponseOptions = {
                 type: 'number',
                 example: HttpStatus.UNAUTHORIZED,
             },
+            success: {
+                type: 'boolean',
+                example: false,
+            },
             message: {
+                type: 'string',
+                example: "Unauthorized",
+            },
+            msg: {
                 type: 'string',
                 example: "Unauthorized",
             },
@@ -61,7 +77,15 @@ export const InternalError: ApiResponseOptions = {
                 type: 'number',
                 example: HttpStatus.INTERNAL_SERVER_ERROR,
             },
+            success: {
+                type: 'boolean',
+                example: false,
+            },
             message: {
+                type: 'string',
+                example: getInternalServerErrorMsg(),
+            },
+            msg: {
                 type: 'string',
                 example: getInternalServerErrorMsg(),
             },
@@ -85,7 +109,15 @@ export const ResponseCorrect: ApiResponseOptions = {
                 type: 'number',
                 example: `${HttpStatus.OK}|${HttpStatus.ACCEPTED}|${HttpStatus.CREATED}`,
             },
+            success: {
+                type: 'boolean',
+                example: true,
+            },
             message: {
+                type: 'string',
+                example: "Correcto",
+            },
+            msg: {
                 type: 'string',
                 example: "Correcto",
             },

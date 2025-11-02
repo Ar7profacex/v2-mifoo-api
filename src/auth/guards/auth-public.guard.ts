@@ -4,6 +4,7 @@ import { ExceptionEnum } from "../../common/enum/exception.enum";
 import { AuthService } from "../auth.service";
 import { Reflector } from "@nestjs/core";
 import { ConfigService } from "@nestjs/config";
+import { X_API_KEY, X_CROSS_PLATFORM } from "src/common/utils/constants";
 
 @Injectable()
 export class AuthPublicGuard implements CanActivate {
@@ -17,12 +18,20 @@ export class AuthPublicGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
 
     const header = request.headers;
-    const authorization = header["x-api-key"];
+    const authorization = header[X_API_KEY];
+    const crossPlatform = header[X_CROSS_PLATFORM];
 
-    if (authorization === undefined) {
+    if (!authorization) {
+      throw new HttpExceptionWM({
+        type: ExceptionEnum.INVALID_API_KEY,
+        messageDetail: `La clave API es requerida`,
+      });
+    }
+
+    if (!crossPlatform) {
       throw new HttpExceptionWM({
         type: ExceptionEnum.FORBIDDEN,
-        messageDetail: `La apiKey es requerida`,
+        messageDetail: `El header cross-platform es requerido`,
       });
     }
 
@@ -33,6 +42,7 @@ export class AuthPublicGuard implements CanActivate {
       authorizationString = authorization;
     }
 
+    this.authService.crossPlatform = crossPlatform;
     return await this.authService.validateApiKey(authorizationString);
   }
 }

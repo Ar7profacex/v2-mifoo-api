@@ -48,3 +48,8 @@ export interface DbTransactionException extends DomainException {
   type: ExceptionEnum.DB_TRANSACTION;
   url?: string;
 }
+
+export interface InvalidApiKeyException extends DomainException {
+  type: ExceptionEnum.INVALID_API_KEY;
+  url?: string;
+}

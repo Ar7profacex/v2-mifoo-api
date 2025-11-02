@@ -17,6 +17,8 @@ import {
   Unauthorized,
 } from "../../swagger/swagger.api-reponse";
 import { AuthPublicGuard } from "../guards/auth-public.guard";
+import { X_API_KEY } from "src/common/utils/constants";
+import { RequireCrossPlatformHeader } from "./cross-platform.decorator";
 
 export const Public = () => {
   SetMetadata("isPublic", true);
@@ -26,7 +28,8 @@ export const Public = () => {
     ApiInternalServerErrorResponse(InternalError),
     ApiUnauthorizedResponse(Unauthorized),
     ApiOkResponse(ResponseCorrect),
-    ApiSecurity("x-api-key"),
+    RequireCrossPlatformHeader(),
+    ApiSecurity(X_API_KEY),
     UseGuards(AuthPublicGuard)
   );
 };

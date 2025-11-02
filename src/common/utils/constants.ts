@@ -11,3 +11,6 @@ export const LENGHT_VALIDATOR =
 export const ID_USER_SYSTEM = 1;
 export const API_KEY_PUBLIC = "ca03na188ame03u1d78620de67282882a84";
 export const ES_HASH = "d54f5f5ds4ftrt57542";
+export const X_API_KEY = "x-api-key";
+export const X_CROSS_PLATFORM = "cross-platform";
+export const X_REQUEST_PLATFORM = "request-platform";

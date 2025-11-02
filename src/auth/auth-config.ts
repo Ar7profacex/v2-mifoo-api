@@ -8,6 +8,6 @@ export class AuthConfig {
 
   constructor(private readonly apisUrl: ApisUrl) {
     this.authority = this.apisUrl.getMsUrl("account/validate").msApiV1;
-    this.validateApiKey = this.apisUrl.getMsUrl("account/validate-api-key").msApiV1;
+    this.validateApiKey = this.apisUrl.getMsUrl("app/validate-api-key").msApiV1;
   }
 }
