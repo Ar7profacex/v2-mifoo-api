@@ -1,5 +1,5 @@
+import { IAccount } from '@ar7profacex/shared';
 import { Injectable, Logger } from '@nestjs/common';
-import { IAccount } from 'src/auth/interfaces/auth.interface';
 
 @Injectable()
 export class PrintersService {

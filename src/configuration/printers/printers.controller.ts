@@ -1,11 +1,9 @@
 import { Body, Controller, Get, Put } from "@nestjs/common";
 import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { Account, Auth, ControllerProtected, PermissionProtected } from "src/auth/decorators";
-import { EPermission } from "src/common/enum/permission.enum";
 import { PrintersService } from "./printers.service";
-import { EAccess } from "src/common/enum/access.enum";
-import { IAccount } from "src/auth/interfaces/auth.interface";
 import { httpResponse } from "src/common/utils/rest-comunication.util";
+import { EAccess, EPermission, IAccount } from "@ar7profacex/shared";
 
 @ApiTags('Configuration => Printers')
 @Controller("configuration/printers")

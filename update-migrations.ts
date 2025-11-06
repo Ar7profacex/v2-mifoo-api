@@ -2,7 +2,7 @@ import { Logger } from "@nestjs/common";
 import * as dotenv from "dotenv";
 import * as path from "path";
 import * as fs from "fs";
-import { DB_MAIN } from "./src/common/utils/constants";
+import { DB_MAIN } from "@ar7profacex/shared";
 
 dotenv.config();
 

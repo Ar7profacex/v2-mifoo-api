@@ -1,7 +1,6 @@
+import { DB_MAIN, logNormal } from "@ar7profacex/shared";
 import { Factory, Seeder } from "@arrimo/typeorm-seeding";
 import { DataSource } from "typeorm";
-import { logNormal } from "src/common/utils/utils.utils";
-import { DB_MAIN } from "src/common/utils/constants";
 export default class DBSetup implements Seeder {
   env = DB_MAIN;
 
