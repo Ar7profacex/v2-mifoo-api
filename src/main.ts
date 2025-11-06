@@ -4,14 +4,13 @@ import { HttpAdapterHost, NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module";
 import { HttpExceptionsFilter } from "./common/filters/http-exceptions.filter";
 import { json } from "express";
-import { swaggerOptions } from "./swagger/swagger.options";
 import { SwaggerModule } from "@nestjs/swagger";
 import { createDocument } from "./swagger/swagger";
 import { APP_PREFIX } from "./common/utils/constants";
-import * as expressBasicAuth from 'express-basic-auth'
-import { SWAGGER_PASS, SWAGGER_USER } from "./swagger/swagger.config";
+import * as expressBasicAuth from 'express-basic-auth';
 import * as cookieParser from "cookie-parser";
 import { DatabaseExceptionFilter } from "./common/filters/database-exception.filter";
+import { SWAGGER_PASS, SWAGGER_USER, swaggerOptions } from "@ar7profacex/shared";
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);

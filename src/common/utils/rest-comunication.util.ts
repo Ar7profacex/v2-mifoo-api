@@ -1,10 +1,8 @@
 import { catchError, firstValueFrom, map, Observable } from 'rxjs';
 import { AxiosResponse } from 'axios';
 import { HttpExceptionWM } from '../exceptions/http.exception';
-import { Exception } from '../types/exception.type';
-import { HttpExceptionResponse } from '../interfaces/http-exception-response.interface';
-import { HttpCorrectResponse } from "../interfaces/http-correct-response.interface";
 import { HttpStatus } from "@nestjs/common";
+import { Exception, HttpCorrectResponse, HttpExceptionResponse } from '@ar7profacex/shared';
 
 export const processHttpResponse = async <T>(
     url: string,

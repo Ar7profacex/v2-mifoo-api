@@ -1,8 +1,5 @@
 import { HttpException, HttpStatus } from "@nestjs/common";
-import { HttpExceptionResponse } from "../interfaces/http-exception-response.interface";
-import { getEnumStringKey } from "../utils/enum.utils";
-import { ExceptionEnum } from "../enum/exception.enum";
-import { Exception } from "../types/exception.type";
+import { Exception, ExceptionEnum, getEnumStringKey, HttpExceptionResponse } from "@ar7profacex/shared";
 
 export class HttpExceptionWM extends HttpException {
   constructor(exception: Exception) {

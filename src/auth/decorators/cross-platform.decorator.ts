@@ -1,6 +1,6 @@
+import { X_CROSS_PLATFORM } from '@ar7profacex/shared';
 import { applyDecorators, InternalServerErrorException, createParamDecorator, ExecutionContext } from '@nestjs/common';
 import { ApiSecurity, ApiHeader } from '@nestjs/swagger';
-import { X_CROSS_PLATFORM } from 'src/common/utils/constants';
 
 export function RequireCrossPlatformHeader() {
     return applyDecorators(

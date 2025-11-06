@@ -1,10 +1,9 @@
 import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
 import { HttpExceptionWM } from "../../common/exceptions/http.exception";
-import { ExceptionEnum } from "../../common/enum/exception.enum";
 import { AuthService } from "../auth.service";
 import { Reflector } from "@nestjs/core";
 import { ConfigService } from "@nestjs/config";
-import { X_API_KEY, X_CROSS_PLATFORM } from "src/common/utils/constants";
+import { ExceptionEnum, X_API_KEY, X_CROSS_PLATFORM } from "@ar7profacex/shared";
 
 @Injectable()
 export class AuthPublicGuard implements CanActivate {

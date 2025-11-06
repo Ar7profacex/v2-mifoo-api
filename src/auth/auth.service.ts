@@ -2,10 +2,8 @@ import { Injectable } from "@nestjs/common";
 import { AuthConfig } from "./auth-config";
 import { HttpService } from "@nestjs/axios";
 import { processHttpResponse } from "../common/utils/rest-comunication.util";
-import { HttpExceptionResponse } from "../common/interfaces/http-exception-response.interface";
-import { APP_PREFIX, DB_MAIN, X_API_KEY, X_CROSS_PLATFORM, X_REQUEST_PLATFORM } from "src/common/utils/constants";
-import { ExceptionEnum } from "src/common/enum/exception.enum";
-import { AuthResponse } from "./interfaces/auth.interface";
+import { AuthResponse, DB_MAIN, ExceptionEnum, HttpExceptionResponse, X_API_KEY, X_CROSS_PLATFORM, X_REQUEST_PLATFORM } from "@ar7profacex/shared";
+import { APP_PREFIX } from "src/common/utils/constants";
 
 @Injectable()
 export class AuthService {

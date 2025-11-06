@@ -1,8 +1,6 @@
+import { SWAGGER_CONFIG, X_API_KEY, X_CROSS_PLATFORM } from "@ar7profacex/shared";
 import { INestApplication } from "@nestjs/common";
 import { DocumentBuilder, OpenAPIObject, SwaggerModule } from "@nestjs/swagger";
-
-import { SWAGGER_CONFIG } from "./swagger.config";
-import { X_API_KEY, X_CROSS_PLATFORM } from "src/common/utils/constants";
 
 export function createDocument(app: INestApplication): OpenAPIObject {
   const builder = new DocumentBuilder()

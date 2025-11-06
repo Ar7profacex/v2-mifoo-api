@@ -1,13 +1,12 @@
 import { CanActivate, ExecutionContext, Injectable, InternalServerErrorException, } from "@nestjs/common";
 import { HttpExceptionWM } from "../../common/exceptions/http.exception";
-import { ExceptionEnum } from "../../common/enum/exception.enum";
 import { AuthService } from "../auth.service";
 import { Reflector } from "@nestjs/core";
 import { ConfigService } from "@nestjs/config";
-import { APP_PREFIX, X_CROSS_PLATFORM } from "../../common/utils/constants";
-import { AuthResponse, IAccount, IAuthToken } from "../interfaces/auth.interface";
 import { META_PERMISSIONS_PROTECTED } from "../decorators/permission-protected.decorator";
 import { META_CONTROLLER_PROTECTED } from "../decorators/controller-protected.decorator";
+import { AuthResponse, ExceptionEnum, IAccount, IAuthToken, X_CROSS_PLATFORM } from "@ar7profacex/shared";
+import { APP_PREFIX } from "src/common/utils/constants";
 
 @Injectable()
 export class AuthCustomGuard implements CanActivate {

@@ -1,3 +1,4 @@
+import { HttpExceptionResponse } from "@ar7profacex/shared";
 import {
   ArgumentsHost,
   Catch,
@@ -6,7 +7,6 @@ import {
   HttpStatus,
 } from "@nestjs/common";
 import { HttpAdapterHost } from "@nestjs/core";
-import { HttpExceptionResponse } from "../interfaces/http-exception-response.interface";
 
 @Catch()
 export class HttpExceptionsFilter implements ExceptionFilter {

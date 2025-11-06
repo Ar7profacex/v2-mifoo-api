@@ -1,11 +1,9 @@
+import { ExceptionEnum, IAccount } from "@ar7profacex/shared";
 import {
   createParamDecorator,
-  ExecutionContext,
-  InternalServerErrorException,
+  ExecutionContext
 } from "@nestjs/common";
-import { IAccount } from "../interfaces/auth.interface";
 import { HttpExceptionWM } from "src/common/exceptions/http.exception";
-import { ExceptionEnum } from "src/common/enum/exception.enum";
 
 export const Account = createParamDecorator(
   (data: string = null, ctx: ExecutionContext) => {

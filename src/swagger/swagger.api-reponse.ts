@@ -1,7 +1,7 @@
 import { ApiResponseOptions } from '@nestjs/swagger';
 import { HttpStatus } from '@nestjs/common';
 import { ClassConstructor } from 'class-transformer';
-import { getInternalServerErrorMsg, getNotFoundMsg } from 'src/common/utils/api-messages.util';
+import { getInternalServerErrorMsg, getNotFoundMsg } from '@ar7profacex/shared';
 
 export const NotFound = <T>(
     resource: ClassConstructor<T>,

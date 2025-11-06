@@ -1,7 +1,6 @@
+import { ExceptionEnum, IAuthToken } from "@ar7profacex/shared";
 import { createParamDecorator, ExecutionContext } from "@nestjs/common";
-import { IAuthToken } from "../interfaces/auth.interface";
 import { HttpExceptionWM } from "src/common/exceptions/http.exception";
-import { ExceptionEnum } from "src/common/enum/exception.enum";
 
 export const Token = createParamDecorator(
     (data: string = null, ctx: ExecutionContext) => {

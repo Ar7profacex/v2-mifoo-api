@@ -7,10 +7,11 @@
   "license": "UNLICENSED",
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "nest build",
+    "build": "npm run shared:update && nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
-    "start:dev": "nest build && nest start --watch",
+    "start:dev": "npm run shared:update && nest build && nest start --watch",
+    "shared:update": "npm install @ar7profacex/shared@latest",
     "update-migrations:run": "ts-node update-migrations",
     "seed:run": "ts-node ./node_modules/@arrimo/typeorm-seeding/dist/cli.js seed",
     "startms:run": "start-ms.bat",
@@ -18,6 +19,7 @@
     "start:prod": "node dist/src/main"
   },
   "dependencies": {
+    "@ar7profacex/shared": "^0.0.5",
     "@arrimo/typeorm-seeding": "^1.6.2",
     "@nestjs-modules/mailer": "^1.8.1",
     "@nestjs/axios": "^1.0.0",

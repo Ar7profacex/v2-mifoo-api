@@ -1,5 +1,5 @@
+import { MsUrl } from "@ar7profacex/shared";
 import { Injectable } from "@nestjs/common";
-import { MsUrl } from "../interfaces/string-object.interface";
 import { ConfigService } from "@nestjs/config";
 
 @Injectable()

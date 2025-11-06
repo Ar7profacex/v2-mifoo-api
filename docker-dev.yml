@@ -7,12 +7,16 @@ services:
     build:
       context: .
       dockerfile: dev.Dockerfile
+      args:
+        GITHUB_TOKEN_CUSTOM: ${GITHUB_TOKEN_CUSTOM}
+        GITHUB_ACTOR_CUSTOM: ${GITHUB_ACTOR_CUSTOM}
     ports:
       - "${APP_PORT}:${APP_PORT}"
     volumes:
       - .:/usr/src/app
-    #env_file:
-    #  - .env
+    environment:
+      - GITHUB_ACTOR_CUSTOM=${GITHUB_ACTOR_CUSTOM}
+      - GITHUB_TOKEN_CUSTOM=${GITHUB_TOKEN_CUSTOM}
     extra_hosts:
       - "host.docker.internal:host-gateway"
       - "docs.ar7pro.local:host-gateway"

@@ -2,10 +2,9 @@ import { Controller, Get } from "@nestjs/common";
 import { AppService } from "./app.service";
 import { Auth, CrossPlatform, PermissionProtected, Public } from "./auth/decorators";
 import { ApiOperation, ApiTags } from "@nestjs/swagger";
-import { EPermission } from "./common/enum/permission.enum";
 import { ControllerProtected } from "./auth/decorators/controller-protected.decorator";
-import { EAccess } from "./common/enum/access.enum";
 import { httpResponse } from "./common/utils/rest-comunication.util";
+import { EAccess, EPermission } from "@ar7profacex/shared";
 
 @ApiTags('App')
 @Controller()

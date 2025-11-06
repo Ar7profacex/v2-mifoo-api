@@ -17,8 +17,8 @@ import {
   Unauthorized,
 } from "../../swagger/swagger.api-reponse";
 import { AuthPublicGuard } from "../guards/auth-public.guard";
-import { X_API_KEY } from "src/common/utils/constants";
 import { RequireCrossPlatformHeader } from "./cross-platform.decorator";
+import { X_API_KEY } from "@ar7profacex/shared";
 
 export const Public = () => {
   SetMetadata("isPublic", true);
