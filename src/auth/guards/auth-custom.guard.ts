@@ -38,7 +38,7 @@ export class AuthCustomGuard implements CanActivate {
       });
     }
 
-    this.authService.crossPlatform = header["cross-platform"] || APP_PREFIX;
+    this.authService.crossPlatform = header[X_CROSS_PLATFORM] || APP_PREFIX;
     const authorizedBy = await this.authorizedBy(authorizationString);
     request.account = authorizedBy.account as IAccount;
     request.authToken = authorizedBy.authToken as IAuthToken;

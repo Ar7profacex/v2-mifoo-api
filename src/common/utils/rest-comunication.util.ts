@@ -8,8 +8,8 @@ export const processHttpResponse = async <T>(
     url: string,
     msResponse: Observable<AxiosResponse<T>>,
     exception: Exception,
-): Promise<T> =>
-    await firstValueFrom(
+): Promise<T> => {
+    return await firstValueFrom(
         msResponse.pipe(
             catchError((error) => {
                 const httpException = error.response?.data as HttpExceptionResponse;
@@ -24,6 +24,7 @@ export const processHttpResponse = async <T>(
             map(({ data }) => data),
         ),
     );
+};
 
 export const processHttpResponseSync = <T>(
     url: string,

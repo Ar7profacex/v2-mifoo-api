@@ -9,7 +9,7 @@ export const Account = createParamDecorator(
   (data: string = null, ctx: ExecutionContext) => {
     const request = ctx.switchToHttp().getRequest();
     const account: IAccount =
-      (data !== null ? request.user[data] : request.user) as IAccount;
+      (data !== null ? request.account[data] : request.account) as IAccount;
 
     if (!account)
       throw new HttpExceptionWM({
