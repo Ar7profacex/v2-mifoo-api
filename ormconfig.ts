@@ -28,6 +28,11 @@ const options: DataSourceOptions = {
 export default {
   ...options,
   autoLoadEntities: true,
+  logging: ['error'],
+  extra: {
+    supportBigNumbers: true,
+    bigNumberStrings: false,
+  },
   seeds: ["dist/**/seeds/*.js"],
   factories: ["dist/**/factories/*.js"],
   subscribers: ["dist/src/common/subscribers/entities/*.subscriber{.ts,.js}"],

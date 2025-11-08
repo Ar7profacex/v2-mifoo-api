@@ -39,7 +39,19 @@ export class PosMarket extends BaseEntity {
     @Column({ type: 'varchar', length: 255, nullable: true })
     address?: string;
 
-    @Column({ type: 'longtext', nullable: true })
+    @Column({
+        type: 'longtext', nullable: true,
+        transformer: {
+            to: (value: any) => (value ? JSON.stringify(value) : null),
+            from: (value: string) => {
+                try {
+                    return value ? JSON.parse(value) : null;
+                } catch {
+                    return value;
+                }
+            },
+        },
+    })
     config?: IConfigMarket;
 
     @Column({ type: 'bigint', unsigned: true, nullable: true })

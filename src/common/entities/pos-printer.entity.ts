@@ -10,7 +10,7 @@ import {
     JoinColumn,
 } from 'typeorm';
 import { PosPoint } from './pos-point.entity';
-import { ConfirmacionEnum, EConnectionPrinter, IPrinterConfig } from '@ar7profacex/shared';
+import { ConfirmacionEnum, EConnectionPrinter, IPrinterStatus, IPrinterConfig } from '@ar7profacex/shared';
 
 @Entity('pos_printers')
 export class PosPrinter extends BaseEntity {
@@ -23,11 +23,38 @@ export class PosPrinter extends BaseEntity {
     @Column({ type: 'varchar', length: 255, nullable: true })
     description?: string;
 
-    @Column({ type: 'varchar', length: 255, nullable: true })
+    @Column({ type: 'varchar', length: 255, nullable: true, unique: true })
     path?: string;
 
-    @Column({ type: 'longtext', nullable: true })
-    config?: IPrinterConfig; //  Puedes usar `Record<string, any>` si parseas JSON al usarla
+    @Column({
+        type: 'longtext', nullable: true,
+        transformer: {
+            to: (value: any) => (value ? JSON.stringify(value) : null),
+            from: (value: string) => {
+                try {
+                    return value ? JSON.parse(value) : null;
+                } catch {
+                    return value;
+                }
+            },
+        },
+    })
+    config?: IPrinterConfig;
+
+    @Column({
+        type: 'longtext', nullable: true,
+        transformer: {
+            to: (value: any) => (value ? JSON.stringify(value) : null),
+            from: (value: string) => {
+                try {
+                    return value ? JSON.parse(value) : null;
+                } catch {
+                    return value;
+                }
+            },
+        },
+    })
+    status?: IPrinterStatus;
 
     @Column({
         type: 'enum',

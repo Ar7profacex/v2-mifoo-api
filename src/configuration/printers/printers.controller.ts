@@ -4,6 +4,7 @@ import { Account, Auth, ControllerProtected, PermissionProtected } from "src/aut
 import { PrintersService } from "./printers.service";
 import { httpResponse } from "src/common/utils/rest-comunication.util";
 import { EAccess, EPermission, IAccount } from "@ar7profacex/shared";
+import { CreatePrinterDto } from "../dto/printer.dto";
 
 @ApiTags('Configuration => Printers')
 @Controller("configuration/printers")
@@ -15,7 +16,7 @@ export class PrintersController {
   @PermissionProtected(EPermission.create, EPermission.update)
   @Auth()
   @Put("save")
-  async save(@Body() data: any, @Account() account: IAccount) {
+  async save(@Body() data: CreatePrinterDto, @Account() account: IAccount) {
     const res = await this.appService.save(data, account);
     return httpResponse(res, 'Impresora guardada correctamente', 200);
   }
