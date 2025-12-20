@@ -5,14 +5,18 @@ import { Not, Repository } from 'typeorm';
 import { PosPrinter } from 'src/common/entities/pos-printer.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { HttpExceptionWM } from 'src/common/exceptions/http.exception';
-import { url } from 'inspector';
+import { PosPrintQueueEntity } from 'src/common/entities/pos-print-queue.entity';
 
 @Injectable()
 export class PrintersService {
   private _logger: Logger = new Logger(PrintersService.name);
 
-  constructor(@InjectRepository(PosPrinter)
-  private repository: Repository<PosPrinter>) { }
+  constructor(
+    @InjectRepository(PosPrinter)
+    private repository: Repository<PosPrinter>,
+    @InjectRepository(PosPrintQueueEntity)
+    private printQueueRepository: Repository<PosPrintQueueEntity>
+  ) { }
 
   async save(data: CreatePrinterDto, account: IAccount): Promise<PosPrinter> {
     let { id } = data;
@@ -71,5 +75,16 @@ export class PrintersService {
 
   async byId(id: number): Promise<PosPrinter> {
     return this.repository.findOne({ where: { id } });
+  }
+
+  async printQueue(id: string): Promise<any> {
+    const res = await this.printQueueRepository.findOne({ where: { id } });
+    if (!res) {
+      throw new HttpExceptionWM({
+        type: ExceptionEnum.NOT_FOUND,
+        message: "Cola de impresión no encontrada"
+      });
+    }
+    return res.data;
   }
 }

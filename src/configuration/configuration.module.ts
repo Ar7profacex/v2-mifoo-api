@@ -7,6 +7,7 @@ import { PrintersController } from "./printers/printers.controller";
 import { ConfigModule } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { PosPrinter } from "src/common/entities/pos-printer.entity";
+import { PosPrintQueueEntity } from "src/common/entities/pos-print-queue.entity";
 
 @Module({
   imports: [
@@ -14,7 +15,7 @@ import { PosPrinter } from "src/common/entities/pos-printer.entity";
     ConfigModule,
     HttpModule,
     AuthModule,
-    TypeOrmModule.forFeature([PosPrinter]),
+    TypeOrmModule.forFeature([PosPrinter, PosPrintQueueEntity]),
   ],
   controllers: [PrintersController],
   providers: [PrintersService],
