@@ -37,20 +37,20 @@ async function bootstrap() {
     app.enableCors();
 
     //SWAGGER SETUP
-    if (env !== 'prod') {//PROD QUITAR DOCUMENTACION
-        const swaggerPath = `v${version}/${prefix}/docs`;
-        app.use(`/${swaggerPath}`, expressBasicAuth({
-            challenge: true,
-            users: { [SWAGGER_USER]: SWAGGER_PASS },
-        }))
+    //if (env !== 'prod') {//PROD QUITAR DOCUMENTACION
+    const swaggerPath = `v${version}/${prefix}/docs`;
+    app.use(`/${swaggerPath}`, expressBasicAuth({
+        challenge: true,
+        users: { [SWAGGER_USER]: SWAGGER_PASS },
+    }))
 
-        SwaggerModule.setup(
-            swaggerPath,
-            app,
-            createDocument(app),
-            swaggerOptions
-        );
-    }
+    SwaggerModule.setup(
+        swaggerPath,
+        app,
+        createDocument(app),
+        swaggerOptions
+    );
+    //}
     //SWAGGER SETUP
 
     await app.listen(port);
