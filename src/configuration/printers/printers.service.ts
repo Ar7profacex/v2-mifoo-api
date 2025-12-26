@@ -5,7 +5,7 @@ import { Not, Repository } from 'typeorm';
 import { PosPrinter } from 'src/common/entities/pos-printer.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { HttpExceptionWM } from 'src/common/exceptions/http.exception';
-import { PosPrintQueueEntity } from 'src/common/entities/pos-print-queue.entity';
+import { PosPrintQueue } from 'src/common/entities/pos-print-queue.entity';
 
 @Injectable()
 export class PrintersService {
@@ -14,8 +14,8 @@ export class PrintersService {
   constructor(
     @InjectRepository(PosPrinter)
     private repository: Repository<PosPrinter>,
-    @InjectRepository(PosPrintQueueEntity)
-    private printQueueRepository: Repository<PosPrintQueueEntity>
+    @InjectRepository(PosPrintQueue)
+    private printQueueRepository: Repository<PosPrintQueue>
   ) { }
 
   async save(data: CreatePrinterDto, account: IAccount): Promise<PosPrinter> {

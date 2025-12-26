@@ -14,6 +14,8 @@ import {
 import { PosPrinter } from './pos-printer.entity';
 import { PosMarket } from './pos-market.entity';
 import { ConfirmacionEnum } from '@ar7profacex/shared';
+import { PosDocument } from './pos-document.entity';
+import { PosOrder } from './pos-order.entity';
 
 @Entity('pos_points')
 @Unique(['code'])
@@ -56,9 +58,18 @@ export class PosPoint extends BaseEntity {
     deleted_at?: Date;
 
     @OneToMany(() => PosPrinter, (printer) => printer.posPoint)
+    @JoinColumn({ name: 'id', referencedColumnName: 'fkid_pos_point' })
     printers?: PosPrinter[];
 
     @ManyToOne(() => PosMarket, (market) => market.points, { nullable: true })
-    @JoinColumn({ name: 'fkid_pos_market' })
+    @JoinColumn({ name: 'fkid_pos_market', referencedColumnName: 'id' })
     posMarket?: PosMarket;
+
+    @OneToMany(() => PosDocument, (document) => document.posPoint)
+    @JoinColumn({ name: 'id', referencedColumnName: 'fkid_pos_point' })
+    posDocuments?: PosDocument[];
+
+    @OneToMany(() => PosOrder, (order) => order.posPoint)
+    @JoinColumn({ name: 'id', referencedColumnName: 'fkid_pos_point' })
+    posOrders?: PosOrder[];
 }

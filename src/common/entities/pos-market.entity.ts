@@ -83,9 +83,10 @@ export class PosMarket extends BaseEntity {
     deleted_at?: Date;
 
     @OneToMany(() => PosPoint, (point) => point.posMarket)
+    @JoinColumn({ name: 'id', referencedColumnName: 'fkid_pos_market' })
     points?: PosPoint[];
 
     @ManyToOne(() => PosCompany, (company) => company.markets, { nullable: true })
-    @JoinColumn({ name: 'fkid_pos_company' })
+    @JoinColumn({ name: 'fkid_pos_company', referencedColumnName: 'id' })
     posCompany?: PosCompany;
 }

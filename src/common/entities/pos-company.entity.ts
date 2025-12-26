@@ -8,6 +8,7 @@ import {
     DeleteDateColumn,
     OneToMany,
     BaseEntity,
+    JoinColumn,
 } from 'typeorm';
 import { PosMarket } from './pos-market.entity';
 import { ConfirmacionEnum } from '@ar7profacex/shared';
@@ -65,5 +66,6 @@ export class PosCompany extends BaseEntity {
     deleted_at?: Date;
 
     @OneToMany(() => PosMarket, (market) => market.posCompany)
+    @JoinColumn({ name: 'id', referencedColumnName: 'fkid_pos_company' })
     markets?: PosMarket[];
 }

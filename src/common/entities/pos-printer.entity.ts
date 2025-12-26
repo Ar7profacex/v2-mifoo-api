@@ -86,6 +86,6 @@ export class PosPrinter extends BaseEntity {
     deleted_at?: Date;
 
     @ManyToOne(() => PosPoint, (posPoint) => posPoint.printers, { nullable: true })
-    @JoinColumn({ name: 'fkid_pos_point' })
+    @JoinColumn({ name: 'fkid_pos_point', referencedColumnName: 'id' })
     posPoint?: PosPoint;
 }

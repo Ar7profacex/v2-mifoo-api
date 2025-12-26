@@ -6,10 +6,11 @@ import {
     CreateDateColumn,
     UpdateDateColumn,
     DeleteDateColumn,
+    BaseEntity,
 } from 'typeorm';
 
 @Entity({ name: 'pos_print_queue' })
-export class PosPrintQueueEntity {
+export class PosPrintQueue extends BaseEntity {
     @PrimaryColumn({ type: 'char', length: 36 })
     id: string;
 
