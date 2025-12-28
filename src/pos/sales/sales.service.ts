@@ -34,13 +34,35 @@ export class SalesService {
       relations: {
         posOrder: true,
         posDocument: true,
-        posShift: true
+        posShift: true,
+        posMarket: {
+          unity: true
+        },
+        posPoint: true
       },
       select: {
+        posMarket: {
+          id: true,
+          config: null,
+          unity: {
+            id: true,
+            name: true,
+            description: true,
+            alias: true,
+            info: null,
+          }
+        },
+        posPoint: {
+          id: true,
+          number: true,
+          name: true,
+          description: true,
+        },
         posOrder: {
           id: true,
           number: true,
           document: true,
+          status: true
         },
         posDocument: {
           id: true,

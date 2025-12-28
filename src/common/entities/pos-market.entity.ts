@@ -10,10 +10,12 @@ import {
     ManyToOne,
     JoinColumn,
     BaseEntity,
+    OneToOne,
 } from 'typeorm';
 import { PosPoint } from './pos-point.entity';
 import { PosCompany } from './pos-company.entity';
 import { ConfirmacionEnum, IConfigMarket } from '@ar7profacex/shared';
+import { ExtUnity } from './ext-unity.entity';
 
 @Entity('pos_markets')
 @Unique(['code'])
@@ -89,4 +91,8 @@ export class PosMarket extends BaseEntity {
     @ManyToOne(() => PosCompany, (company) => company.markets, { nullable: true })
     @JoinColumn({ name: 'fkid_pos_company', referencedColumnName: 'id' })
     posCompany?: PosCompany;
+
+    @OneToOne(() => ExtUnity)
+    @JoinColumn({ name: 'fkid_ext_unity', referencedColumnName: 'id' })
+    unity: ExtUnity;
 }

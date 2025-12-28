@@ -9,9 +9,11 @@ import {
     OneToMany,
     BaseEntity,
     JoinColumn,
+    OneToOne,
 } from 'typeorm';
 import { PosMarket } from './pos-market.entity';
 import { ConfirmacionEnum } from '@ar7profacex/shared';
+import { ExtCountry } from './ext-country.entity';
 
 @Entity('pos_companies')
 @Unique(['run'])
@@ -68,4 +70,8 @@ export class PosCompany extends BaseEntity {
     @OneToMany(() => PosMarket, (market) => market.posCompany)
     @JoinColumn({ name: 'id', referencedColumnName: 'fkid_pos_company' })
     markets?: PosMarket[];
+
+    @OneToOne(() => ExtCountry)
+    @JoinColumn({ name: 'fkid_ext_country', referencedColumnName: 'id' })
+    country?: ExtCountry;
 }
