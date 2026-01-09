@@ -14,6 +14,9 @@ import { PosOrder } from "./entities/pos-order.entity";
 import { PosOrderDetail } from "./entities/pos-order-detail.entity";
 import { PosDocument } from "./entities/pos-document.entity";
 import { PosDocumentFile } from "./entities/pos-document-file.entity";
+import { User } from "./entities/user.entity";
+import { UserData } from "./entities/user-data.entity";
+import { SysProfile } from "./entities/sys-profile.entity";
 
 @Module({
   providers: [
@@ -24,7 +27,8 @@ import { PosDocumentFile } from "./entities/pos-document-file.entity";
     HttpModule,
     TypeOrmModule.forFeature([
       PosShift, PosCompany, PosMarket, PosPoint, PosPrintQueue, PosPrinter, ViewMtDashboard,
-      PosOrder, PosOrderDetail, PosDocument, PosDocumentFile
+      PosOrder, PosOrderDetail, PosDocument, PosDocumentFile,
+      User, UserData, SysProfile
     ]),
   ],
   exports: [

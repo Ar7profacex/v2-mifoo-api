@@ -1,4 +1,4 @@
-import { EStatusOrder, ETypeOrder } from '@ar7profacex/shared';
+import { EPaymentMethod, EPaymentMethodStr, EStatusOrder, ETypeDocument, ETypeDocumentStr, ETypeOrder } from '@ar7profacex/shared';
 import {
     Entity,
     PrimaryGeneratedColumn,
@@ -11,11 +11,14 @@ import {
     OneToMany,
     ManyToOne,
     JoinColumn,
+    OneToOne,
 } from 'typeorm';
 import { PosOrderDetail } from './pos-order-detail.entity';
 import { PosDocument } from './pos-document.entity';
 import { PosShift } from './pos-shift.entity';
 import { PosPoint } from './pos-point.entity';
+import { User } from './user.entity';
+import { PosMarket } from './pos-market.entity';
 
 @Entity('pos_orders')
 @Index('pos_orders_fkid_pos_contact_index', ['fkid_pos_contact'])
@@ -106,4 +109,41 @@ export class PosOrder extends BaseEntity {
     @ManyToOne(() => PosPoint, (posPoint) => posPoint.posOrders)
     @JoinColumn({ name: 'fkid_pos_point', referencedColumnName: 'id' })
     posPoint: PosPoint;
+
+    @OneToOne(() => User)
+    @JoinColumn({ name: 'fkid_user', referencedColumnName: 'id' })
+    author: User;
+
+    //PARA REPORTE NO PAGADOS
+    idDocument?: number;
+    numberDocument?: number;
+    idOrder?: number;
+    numberOrder?: number;
+    valueDocument?: number;
+    taxesDocument?: number;
+    subValueDocument?: number;
+    valueGratDocument?: number;
+    payDocument?: number;
+    changeDocument?: number;
+    valueDeliveryDocument?: number;
+    typeDocument?: ETypeDocumentStr;
+    methodDocument?: EPaymentMethodStr;
+    idPoint?: number;
+    point?: number;
+    idMarket?: number;
+    market?: string;
+    idCompany?: number;
+    company?: string;
+    runCompany?: string;
+    idUser?: number;
+    nameUser?: string;
+    typeOrder?: ETypeOrder;
+    dateTimeOrder?: Date;
+    dateOrder?: Date;
+    dateUpdated?: Date;
+    idShift?: number;
+
+    posMarket?: Partial<PosMarket>;
+    posOrder?: Partial<PosOrder>;
+    posDocument?: Partial<PosDocument>;
 }
