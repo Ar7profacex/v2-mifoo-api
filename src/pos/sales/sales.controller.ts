@@ -24,10 +24,11 @@ export class SalesController {
   @ApiOperation({ summary: `Endpoint para obtener ventas por jornada` })
   @PermissionProtected(EPermission.view)
   @ApiParam({ name: 'shiftId', required: true, type: 'string' })
+  @ApiParam({ name: 'typeReport', required: true, type: 'string' })
   @Auth()
-  @Get("by-shift/:shiftId")
-  async byShift(@Param('shiftId', ParseUUIDPipe) shiftId: string, @Account() account: IAccount) {
-    const res = await this.service.byShift(shiftId, account);
+  @Get("by-shift/:shiftId/:typeReport")
+  async byShift(@Param('shiftId', ParseUUIDPipe) shiftId: string, @Param('typeReport', ParseIntPipe) typeReport: 'sales' | 'daily', @Account() account: IAccount) {
+    const res = await this.service.byShift(shiftId, typeReport, account);
     return httpResponse(res, 'Ventas por jornada obtenidas correctamente', 200);
   }
 }

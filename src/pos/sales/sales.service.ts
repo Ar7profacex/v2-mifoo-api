@@ -20,7 +20,7 @@ export class SalesService {
     private posOrderRepository: Repository<PosOrder>,
   ) { }
 
-  async byShift(shiftId: string, account: IAccount): Promise<any[]> {
+  async byShift(shiftId: string, typeReport: 'sales' | 'daily', account: IAccount): Promise<any[]> {
     const shift = await this.posShiftRepository.findOne({
       where: {
         uuId: shiftId
@@ -35,7 +35,11 @@ export class SalesService {
 
     const sales = await this.viewMtDashboardRepository.find({
       relations: {
-        posOrder: true,
+        posOrder: {
+          posOrderDetails: {
+            posProduct: true
+          }
+        },
         posDocument: true,
         posShift: true,
         posMarket: {
@@ -65,7 +69,16 @@ export class SalesService {
           id: true,
           number: true,
           document: true,
-          status: true
+          status: true,
+          posOrderDetails: {
+            id: true,
+            posProduct: {
+              id: true,
+              alias: true,
+              name: true,
+              image: true
+            }
+          }
         },
         posDocument: {
           id: true,
@@ -87,6 +100,10 @@ export class SalesService {
       }
     });
 
+    if (typeReport === 'daily') {
+      return sales;
+    }
+
     const idOrders = sales.map((sale) => +sale.posOrder.id);
     const ordersNoSale = await this.posOrderRepository.find({
       relations: {
@@ -97,11 +114,23 @@ export class SalesService {
             unity: true
           }
         },
+        posOrderDetails: {
+          posProduct: true
+        },
         posShift: true,
         posContact: true,
         posDeliveryMan: true,
       },
       select: {
+        posOrderDetails: {
+          id: true,
+          posProduct: {
+            id: true,
+            alias: true,
+            name: true,
+            image: true
+          }
+        },
         posContact: {
           id: true,
           name: true,

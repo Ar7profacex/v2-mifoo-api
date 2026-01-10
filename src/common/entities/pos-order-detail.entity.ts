@@ -11,6 +11,8 @@ import {
     JoinColumn,
 } from 'typeorm';
 import { PosOrder } from './pos-order.entity';
+import { PosProduct } from './pos-product.entity';
+import { PosProductDetail } from './pos-product-detail.entity';
 
 @Entity('pos_orders_details')
 @Index('pos_orders_details_fkid_pos_order_index', ['fkid_pos_order'])
@@ -57,4 +59,12 @@ export class PosOrderDetail extends BaseEntity {
     @ManyToOne(() => PosOrder, (posOrder) => posOrder.posOrderDetails)
     @JoinColumn({ name: 'fkid_pos_order', referencedColumnName: 'id' })
     posOrder: PosOrder;
+
+    @ManyToOne(() => PosProductDetail, (posProductDetail) => posProductDetail.posOrderDetails)
+    @JoinColumn({ name: 'fkid_pos_product_detail', referencedColumnName: 'id' })
+    posProductDetail: PosProductDetail;
+
+    @ManyToOne(() => PosProduct, (posProduct) => posProduct.posOrderDetails)
+    @JoinColumn({ name: 'fkid_pos_product', referencedColumnName: 'id' })
+    posProduct: PosProduct;
 }

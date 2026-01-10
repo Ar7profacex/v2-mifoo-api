@@ -21,6 +21,9 @@ import { PosContact } from "./entities/pos-contact.entity";
 import { PosDeliveryMan } from "./entities/pos-delivery-men.entity";
 import { PosDeliveryManMarket } from "./entities/pos-delivery-men-market.entity";
 import { PosContactMarket } from "./entities/pos-contact-market.entity";
+import { PosItem } from "./entities/pos-item.entity";
+import { PosProduct } from "./entities/pos-product.entity";
+import { PosProductDetail } from "./entities/pos-product-detail.entity";
 
 @Module({
   providers: [
@@ -33,7 +36,7 @@ import { PosContactMarket } from "./entities/pos-contact-market.entity";
       PosShift, PosCompany, PosMarket, PosPoint, PosPrintQueue, PosPrinter, ViewMtDashboard,
       PosOrder, PosOrderDetail, PosDocument, PosDocumentFile,
       User, UserData, SysProfile, PosContact, PosDeliveryMan,
-      PosDeliveryManMarket, PosContactMarket
+      PosDeliveryManMarket, PosContactMarket, PosItem, PosProduct, PosProductDetail
     ]),
   ],
   exports: [
