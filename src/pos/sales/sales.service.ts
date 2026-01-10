@@ -98,8 +98,22 @@ export class SalesService {
           }
         },
         posShift: true,
+        posContact: true,
+        posDeliveryMan: true,
       },
       select: {
+        posContact: {
+          id: true,
+          name: true,
+          phone: true,
+        },
+        posDeliveryMan: {
+          id: true,
+          name: true,
+          phone: true,
+          run: true,
+          dv: true,
+        },
         posPoint: {
           id: true,
           number: true,
@@ -139,6 +153,12 @@ export class SalesService {
     });
 
     const ordersNoSaleList = ordersNoSale.map((order) => {
+      const posDeliveryMan = order.posDeliveryMan;
+      const posContact = order.posContact;
+      delete order.posDeliveryMan;
+      delete order.posContact;
+      delete order.dataFreeze;
+
       order.idDocument = 0;
       order.numberDocument = 0;
       order.idOrder = order.id;
@@ -173,6 +193,8 @@ export class SalesService {
         config: order.posPoint.posMarket.config,
         unity: order.posPoint.posMarket.unity
       };
+      order.client = posContact?.name ?? "";
+      order.deliveryMan = posDeliveryMan?.name ?? "";
 
       return order;
     });

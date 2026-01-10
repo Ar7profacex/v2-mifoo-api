@@ -19,7 +19,7 @@
     "start:prod": "node dist/src/main"
   },
   "dependencies": {
-    "@ar7profacex/shared": "^0.0.38",
+    "@ar7profacex/shared": "^0.0.40",
     "@arrimo/typeorm-seeding": "^1.6.2",
     "@nestjs-modules/mailer": "^1.8.1",
     "@nestjs/axios": "^1.0.0",

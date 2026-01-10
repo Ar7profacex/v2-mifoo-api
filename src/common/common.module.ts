@@ -17,6 +17,10 @@ import { PosDocumentFile } from "./entities/pos-document-file.entity";
 import { User } from "./entities/user.entity";
 import { UserData } from "./entities/user-data.entity";
 import { SysProfile } from "./entities/sys-profile.entity";
+import { PosContact } from "./entities/pos-contact.entity";
+import { PosDeliveryMan } from "./entities/pos-delivery-men.entity";
+import { PosDeliveryManMarket } from "./entities/pos-delivery-men-market.entity";
+import { PosContactMarket } from "./entities/pos-contact-market.entity";
 
 @Module({
   providers: [
@@ -28,7 +32,8 @@ import { SysProfile } from "./entities/sys-profile.entity";
     TypeOrmModule.forFeature([
       PosShift, PosCompany, PosMarket, PosPoint, PosPrintQueue, PosPrinter, ViewMtDashboard,
       PosOrder, PosOrderDetail, PosDocument, PosDocumentFile,
-      User, UserData, SysProfile
+      User, UserData, SysProfile, PosContact, PosDeliveryMan,
+      PosDeliveryManMarket, PosContactMarket
     ]),
   ],
   exports: [

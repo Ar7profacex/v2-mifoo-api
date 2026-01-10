@@ -19,6 +19,8 @@ import { PosShift } from './pos-shift.entity';
 import { PosPoint } from './pos-point.entity';
 import { User } from './user.entity';
 import { PosMarket } from './pos-market.entity';
+import { PosContact } from './pos-contact.entity';
+import { PosDeliveryMan } from './pos-delivery-men.entity';
 
 @Entity('pos_orders')
 @Index('pos_orders_fkid_pos_contact_index', ['fkid_pos_contact'])
@@ -114,6 +116,14 @@ export class PosOrder extends BaseEntity {
     @JoinColumn({ name: 'fkid_user', referencedColumnName: 'id' })
     author: User;
 
+    @OneToOne(() => PosContact)
+    @JoinColumn({ name: 'fkid_pos_contact', referencedColumnName: 'id' })
+    posContact: PosContact;
+
+    @OneToOne(() => PosDeliveryMan)
+    @JoinColumn({ name: 'fkid_pos_delivery_man', referencedColumnName: 'id' })
+    posDeliveryMan: PosDeliveryMan;
+
     //PARA REPORTE NO PAGADOS
     idDocument?: number;
     numberDocument?: number;
@@ -146,4 +156,6 @@ export class PosOrder extends BaseEntity {
     posMarket?: Partial<PosMarket>;
     posOrder?: Partial<PosOrder>;
     posDocument?: Partial<PosDocument>;
+    client?: string;
+    deliveryMan?: string;
 }
