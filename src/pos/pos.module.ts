@@ -12,7 +12,9 @@ import { SalesService } from "./sales/sales.service";
     ConfigModule,
     HttpModule,
     AuthModule,
+    PosModule
   ],
+  exports: [SalesService],
   controllers: [SalesController],
   providers: [SalesService],
 })

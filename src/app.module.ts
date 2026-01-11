@@ -15,6 +15,7 @@ import { APP_PREFIX } from "./common/utils/constants";
 import { ConfigurationModule } from "./configuration/configuration.module";
 import { ExampleModule } from "./example/example.module";
 import { PosModule } from "./pos/pos.module";
+import { ReportModule } from "./report/report.module";
 
 const optionsORm = {
   ...ormconfig,
@@ -34,6 +35,7 @@ const optionsORm = {
     ExampleModule,
     ConfigurationModule,
     PosModule,
+    ReportModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, "..", "client"),
       exclude: [`v${process.env.API_VERSION}/${APP_PREFIX}`],

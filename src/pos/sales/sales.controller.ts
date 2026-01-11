@@ -1,8 +1,8 @@
-import { Body, Controller, Get, Param, ParseIntPipe, ParseUUIDPipe, Put, Query } from "@nestjs/common";
+import { Body, Controller, Get, Param, ParseIntPipe, ParseUUIDPipe, Post, Put, Query } from "@nestjs/common";
 import { ApiOperation, ApiParam, ApiQuery, ApiTags } from "@nestjs/swagger";
 import { Account, Auth, ControllerProtected, PermissionProtected } from "src/auth/decorators";
 import { httpResponse } from "src/common/utils/rest-comunication.util";
-import { EAccess, EPermission, IAccount } from "@ar7profacex/shared";
+import { EAccess, EPermission, ETypeReport, IAccount } from "@ar7profacex/shared";
 import { SalesService } from "./sales.service";
 
 @ApiTags('Pos => Sales')
@@ -24,11 +24,11 @@ export class SalesController {
   @ApiOperation({ summary: `Endpoint para obtener ventas por jornada` })
   @PermissionProtected(EPermission.view)
   @ApiParam({ name: 'shiftId', required: true, type: 'string' })
-  @ApiParam({ name: 'typeReport', required: true, type: 'string' })
+  @ApiParam({ name: 'typeReport', required: true, type: 'enum', enum: ETypeReport })
   @Auth()
   @Get("by-shift/:shiftId/:typeReport")
-  async byShift(@Param('shiftId', ParseUUIDPipe) shiftId: string, @Param('typeReport', ParseIntPipe) typeReport: 'sales' | 'daily', @Account() account: IAccount) {
-    const res = await this.service.byShift(shiftId, typeReport, account);
+  async byShift(@Param('shiftId', ParseUUIDPipe) shiftId: string, @Param('typeReport') typeReport: ETypeReport, @Account() account: IAccount) {
+    const res = await this.service.byShift([shiftId], typeReport, account);
     return httpResponse(res, 'Ventas por jornada obtenidas correctamente', 200);
   }
 }

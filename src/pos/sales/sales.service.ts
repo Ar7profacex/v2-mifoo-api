@@ -1,4 +1,4 @@
-import { EPaymentMethod, EPaymentMethodStr, EStatusOrder, EStatusShift, ETypeDocument, ETypeDocumentStr, ExceptionEnum, IAccount } from '@ar7profacex/shared';
+import { EPaymentMethodStr, EStatusOrder, ETypeDocumentStr, ETypeReport, ExceptionEnum, IAccount } from '@ar7profacex/shared';
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PosOrder } from 'src/common/entities/pos-order.entity';
@@ -20,13 +20,13 @@ export class SalesService {
     private posOrderRepository: Repository<PosOrder>,
   ) { }
 
-  async byShift(shiftId: string, typeReport: 'sales' | 'daily', account: IAccount): Promise<any[]> {
-    const shift = await this.posShiftRepository.findOne({
+  async byShift(shiftId: string[], typeReport: ETypeReport, account: IAccount): Promise<any[]> {
+    const shifts = await this.posShiftRepository.find({
       where: {
-        uuId: shiftId
+        uuId: In(shiftId)
       }
     });
-    if (!shift) {
+    if (shifts.length === 0) {
       throw new HttpExceptionWM({
         type: ExceptionEnum.NOT_FOUND,
         messageDetail: `shift_not_found`,
@@ -93,14 +93,14 @@ export class SalesService {
         }
       },
       where: {
-        idShift: shift.id
+        idShift: In(shifts.map((shift) => shift.id))
       },
       order: {
         dateTimeOrder: 'DESC'
       }
     });
 
-    if (typeReport === 'daily') {
+    if (typeReport !== ETypeReport.sales) {
       return sales;
     }
 
@@ -176,7 +176,7 @@ export class SalesService {
       },
       where: {
         id: Not(In(idOrders)),
-        fkid_pos_shift: shift.id,
+        fkid_pos_shift: In(shifts.map((shift) => shift.id)),
         status: EStatusOrder.SOLICITADO//NO PAGADO
       }
     });
