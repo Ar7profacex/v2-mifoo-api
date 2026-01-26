@@ -33,8 +33,9 @@ export class ConsolidateService {
       .innerJoin("s.point", "p")
       .innerJoin("p.posMarket", "m")
       .where("m.id = :idMarket", { idMarket: data.idMarket })
+      .andWhere("s.opened_at >= :start", { start })
       .andWhere("s.opened_at <= :end", { end })
-      .andWhere("(s.closed_at IS NULL OR s.closed_at >= :start)", { start })
+      //.andWhere("(s.closed_at IS NULL OR s.closed_at >= :start)", { start })
       .orderBy("s.opened_at", "DESC")
       .getMany();
 
