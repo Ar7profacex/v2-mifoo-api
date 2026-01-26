@@ -1,11 +1,18 @@
-import { EPaymentMethodStr, EStatusOrder, ETypeDocumentStr, ETypeReport, ExceptionEnum, IAccount } from '@ar7profacex/shared';
-import { Injectable, Logger } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { PosOrder } from 'src/common/entities/pos-order.entity';
-import { PosShift } from 'src/common/entities/pos-shift.entity';
-import { ViewMtDashboard } from 'src/common/entities/view-mt-dashboard.entity';
-import { HttpExceptionWM } from 'src/common/exceptions/http.exception';
-import { In, Not, Repository } from 'typeorm';
+import {
+  EPaymentMethodStr,
+  EStatusOrder,
+  ETypeDocumentStr,
+  ETypeReport,
+  ExceptionEnum,
+  IAccount,
+} from "@ar7profacex/shared";
+import { Injectable, Logger } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { PosOrder } from "src/common/entities/pos-order.entity";
+import { PosShift } from "src/common/entities/pos-shift.entity";
+import { ViewMtDashboard } from "src/common/entities/view-mt-dashboard.entity";
+import { HttpExceptionWM } from "src/common/exceptions/http.exception";
+import { In, Not, Repository } from "typeorm";
 
 @Injectable()
 export class SalesService {
@@ -18,34 +25,37 @@ export class SalesService {
     private viewMtDashboardRepository: Repository<ViewMtDashboard>,
     @InjectRepository(PosOrder)
     private posOrderRepository: Repository<PosOrder>,
-  ) { }
+  ) {}
 
-  async byShift(shiftId: string[], typeReport: ETypeReport, account: IAccount): Promise<any[]> {
+  async byShift(
+    shiftId: string[],
+    typeReport: ETypeReport,
+    account: IAccount,
+  ): Promise<any[]> {
     const shifts = await this.posShiftRepository.find({
       where: {
-        uuId: In(shiftId)
-      }
+        uuId: In(shiftId),
+      },
     });
-    if (shifts.length === 0) {
-      throw new HttpExceptionWM({
-        type: ExceptionEnum.NOT_FOUND,
-        messageDetail: `shift_not_found`,
-      });
+
+    if (typeReport !== ETypeReport.consolidated) {
+      if (shifts.length === 0) {
+        throw new HttpExceptionWM({
+          type: ExceptionEnum.NOT_FOUND,
+          messageDetail: `shift_not_found`,
+        });
+      }
     }
 
     const sales = await this.viewMtDashboardRepository.find({
       relations: {
-        posOrder: {
-          posOrderDetails: {
-            posProduct: true
-          }
-        },
+        posOrder: true,
         posDocument: true,
         posShift: true,
         posMarket: {
-          unity: true
+          unity: true,
         },
-        posPoint: true
+        posPoint: true,
       },
       select: {
         posMarket: {
@@ -57,7 +67,7 @@ export class SalesService {
             description: true,
             alias: true,
             info: null,
-          }
+          },
         },
         posPoint: {
           id: true,
@@ -70,34 +80,26 @@ export class SalesService {
           number: true,
           document: true,
           status: true,
-          posOrderDetails: {
-            id: true,
-            posProduct: {
-              id: true,
-              alias: true,
-              name: true,
-              image: true
-            }
-          }
+          dataFreeze: null,
         },
         posDocument: {
           id: true,
           number: true,
-          document: true
+          document: true,
         },
         posShift: {
           id: true,
           status: true,
           opened_at: true,
           closed_at: true,
-        }
+        },
       },
       where: {
-        idShift: In(shifts.map((shift) => shift.id))
+        idShift: In(shifts.map((shift) => shift.id)),
       },
       order: {
-        dateTimeOrder: 'DESC'
-      }
+        dateTimeOrder: "DESC",
+      },
     });
 
     if (typeReport !== ETypeReport.sales) {
@@ -111,26 +113,14 @@ export class SalesService {
         posPoint: {
           posMarket: {
             posCompany: true,
-            unity: true
-          }
-        },
-        posOrderDetails: {
-          posProduct: true
+            unity: true,
+          },
         },
         posShift: true,
         posContact: true,
         posDeliveryMan: true,
       },
       select: {
-        posOrderDetails: {
-          id: true,
-          posProduct: {
-            id: true,
-            alias: true,
-            name: true,
-            image: true
-          }
-        },
         posContact: {
           id: true,
           name: true,
@@ -156,7 +146,7 @@ export class SalesService {
               id: true,
               name: true,
               run: true,
-              dv: true
+              dv: true,
             },
             unity: {
               id: true,
@@ -164,21 +154,21 @@ export class SalesService {
               description: true,
               alias: true,
               info: null,
-            }
-          }
+            },
+          },
         },
         posShift: {
           id: true,
           status: true,
           opened_at: true,
           closed_at: true,
-        }
+        },
       },
       where: {
         id: Not(In(idOrders)),
         fkid_pos_shift: In(shifts.map((shift) => shift.id)),
-        status: EStatusOrder.SOLICITADO//NO PAGADO
-      }
+        status: EStatusOrder.SOLICITADO, //NO PAGADO
+      },
     });
 
     const ordersNoSaleList = ordersNoSale.map((order) => {
@@ -220,7 +210,7 @@ export class SalesService {
       order.posMarket = {
         id: order.posPoint.posMarket.id,
         config: order.posPoint.posMarket.config,
-        unity: order.posPoint.posMarket.unity
+        unity: order.posPoint.posMarket.unity,
       };
       order.client = posContact?.name ?? "";
       order.deliveryMan = posDeliveryMan?.name ?? "";
@@ -228,18 +218,20 @@ export class SalesService {
       return order;
     });
 
-    return [...sales, ...ordersNoSaleList].sort((a, b) => b.dateTimeOrder.getTime() - a.dateTimeOrder.getTime());
+    return [...sales, ...ordersNoSaleList].sort(
+      (a, b) => b.dateTimeOrder.getTime() - a.dateTimeOrder.getTime(),
+    );
   }
 
   async shiftsByPoint(pointId: number, account: IAccount): Promise<PosShift[]> {
     return await this.posShiftRepository.find({
       where: {
-        fkid_pos_point: pointId
+        fkid_pos_point: pointId,
       },
       order: {
-        opened_at: 'DESC'
+        opened_at: "DESC",
       },
-      take: 100
+      take: 100,
     });
   }
 }
